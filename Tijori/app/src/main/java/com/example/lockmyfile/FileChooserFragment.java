@@ -74,7 +74,9 @@ public class FileChooserFragment extends Fragment {
                             Toast.makeText(getContext(), "Permission Denied", Toast.LENGTH_SHORT).show();
                         }
                     }
+                    ApplicationLifecycleObserver.stillInApp = false;
                 }
+
             }
         });
 
@@ -88,7 +90,9 @@ public class FileChooserFragment extends Fragment {
                         uri = result.getData().getData();
                         FileUtility.getFile(getContext(), uri);
                     }
+                    ApplicationLifecycleObserver.stillInApp = false;
                 }
+
             }
         });
 
@@ -125,6 +129,7 @@ public class FileChooserFragment extends Fragment {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
             Intent requestIntent = null;
             try{
+                ApplicationLifecycleObserver.stillInApp = true;
                 requestIntent = new Intent(Settings.ACTION_MANAGE_APP_ALL_FILES_ACCESS_PERMISSION);
                 requestIntent.addCategory("android.intent.category.DEFAULT");
                 requestIntent.setData(Uri.parse(String.format("package:%s", new Object[]{this.getContext().getPackageName()})));
@@ -189,6 +194,9 @@ public class FileChooserFragment extends Fragment {
     }
 
     private void browseFiles(){
+
+        ApplicationLifecycleObserver.stillInApp = true;
+
         // set action to open file browser
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 

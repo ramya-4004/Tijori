@@ -37,6 +37,13 @@ public class ShowAllFilesActivity extends AppCompatActivity implements LoaderMan
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*
+        ApplicationLifecycleObserver observer = new ApplicationLifecycleObserver();
+        observer.registerLifecycle(getLifecycle());
+
+         */
+
         setContentView(R.layout.activity_show_all_files);
 
         filesListView = findViewById(R.id.files_list_view);
@@ -50,7 +57,9 @@ public class ShowAllFilesActivity extends AppCompatActivity implements LoaderMan
         loaderId++;
 
     }
-/**
+
+
+    /**
     private ArrayList<FileDetails> getAllFilesWithoutPath(){
         String[] files = getApplicationContext().fileList();
         ArrayList<FileDetails> fileList = new ArrayList<>();
@@ -61,6 +70,15 @@ public class ShowAllFilesActivity extends AppCompatActivity implements LoaderMan
         return fileList;
     }
     */
+
+    // to not open the app without authentication when this activity is closed
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+
 
     @NonNull
     @Override

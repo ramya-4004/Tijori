@@ -32,3 +32,5 @@ public class FileDetailsAdapter extends ArrayAdapter<FileDetails> {
         return view;
     }
 }
+
+

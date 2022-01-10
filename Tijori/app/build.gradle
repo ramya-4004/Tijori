@@ -28,7 +28,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.wear:wear:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -36,6 +35,12 @@ dependencies {
     // for obtaining ActivityResultLauncher
     implementation "androidx.activity:activity:1.2.0"
     implementation "androidx.fragment:fragment:1.3.0"
-    compileOnly 'com.google.android.wearable:wearable:2.5.0'
+
+    // setup biometric authentication in JAVA language
+    implementation "androidx.biometric:biometric:1.1.0"
+
+    // Lifecycle Observation dependency
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
+
 
 }

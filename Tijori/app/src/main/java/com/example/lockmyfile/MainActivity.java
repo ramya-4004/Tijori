@@ -1,30 +1,21 @@
 package com.example.lockmyfile;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
-import android.provider.Settings;
+import android.view.LayoutInflater;
+import android.widget.FrameLayout;
+import androidx.annotation.NonNull;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -37,10 +28,67 @@ public class MainActivity extends AppCompatActivity {
     // Button to view all files locked in the app
     Button showBtn;
 
+    // boolean to know if the user has unlocked the app once
+    public static boolean unlocked;
+
+    /**
+     *  Declarations to setup authentication to open the app
+*/
+    public static Executor executor;
+    public static BiometricPrompt biometricPrompt;
+    public static BiometricPrompt.PromptInfo promptInfo;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        /*
+        ApplicationLifecycleObserver observer = new ApplicationLifecycleObserver();
+        observer.registerLifecycle(getLifecycle());
+
+         */
+
         setContentView(R.layout.activity_main);
+
+        final FrameLayout frameLayout = findViewById(R.id.mainActivityLayout);
+
+        unlocked = false;
+
+        executor = ContextCompat.getMainExecutor(this);
+        biometricPrompt = new BiometricPrompt(MainActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode,
+                                              @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getApplicationContext(), "Authentication error: " + errString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(
+                    @NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(getApplicationContext(), "Authentication succeeded!", Toast.LENGTH_SHORT).show();
+                unlocked = true;
+
+                // make the activity visible only when authentication is successful
+                frameLayout.setVisibility(FrameLayout.VISIBLE);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+                Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Biometric Login for Tijori App")
+                .setSubtitle("Log in using your biometric credential")
+                .setAllowedAuthenticators(BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                .build();
+
+
 
         addFab = findViewById(R.id.add_fab);
         addFab.setOnClickListener(addAFile);
@@ -50,6 +98,16 @@ public class MainActivity extends AppCompatActivity {
 
         showBtn = findViewById(R.id.show_files_btn);
         showBtn.setOnClickListener(startShowFilesActivity);
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (unlocked == false) {
+            biometricPrompt.authenticate(promptInfo);
+        }
     }
 
     // Setting on click listener for the button

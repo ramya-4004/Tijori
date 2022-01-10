@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Lock My File</string>
 
+    <!-- fake app name to disguise the app -->
+    <string name="disguise_app_name">Calendar</string>
+
     <!-- string value for button to select files -->
     <string name="browse_files">Browse</string>
     <string name="title_activity_show_all_files">ShowAllFilesActivity</string>
@@ -13,5 +16,7 @@
     <!-- String value for button to view all files in the app -->
     <string name="show_all_files">Show files</string>
     <string name="no_result_found">No Results Found</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
