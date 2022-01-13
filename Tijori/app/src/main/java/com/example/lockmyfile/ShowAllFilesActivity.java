@@ -1,34 +1,27 @@
 package com.example.lockmyfile;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
-import android.os.Environment;
-import android.util.Log;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.view.WindowManager;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
-
-import java.io.File;
-import java.lang.reflect.Array;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-public class ShowAllFilesActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<FileDetails>> {
+public class ShowAllFilesActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<List<FileDetails>> {
 
     private final static String LOG_TAG = ShowAllFilesActivity.class.getName();
 
-    ListView filesListView;
+    RecyclerView recyclerView;
 
-    FileDetailsAdapter adapter;
+    List<FileDetails> fileDetailsList;
+
+    RecyclerViewAdapter adapter;
 
     TextView emptyTextView;
 
@@ -38,38 +31,30 @@ public class ShowAllFilesActivity extends AppCompatActivity implements LoaderMan
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*
-        ApplicationLifecycleObserver observer = new ApplicationLifecycleObserver();
-        observer.registerLifecycle(getLifecycle());
-
-         */
+        // Screenshot protection
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         setContentView(R.layout.activity_show_all_files);
 
-        filesListView = findViewById(R.id.files_list_view);
+        recyclerView = findViewById(R.id.recycler_view);
 
         emptyTextView = findViewById(R.id.empty_text_view);
 
-        adapter = new FileDetailsAdapter(this, 0, new ArrayList<FileDetails>());
-        filesListView.setAdapter(adapter);
+        fileDetailsList = new ArrayList<>();
+
+        GridLayoutManager manager = new GridLayoutManager(this, 4);
+
+        adapter = new RecyclerViewAdapter(this, fileDetailsList);
+        //defining recyclerView and setting the adapter
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(manager);
+
+
 
         LoaderManager.getInstance(ShowAllFilesActivity.this).initLoader(loaderId, null, ShowAllFilesActivity.this);
         loaderId++;
 
     }
-
-
-    /**
-    private ArrayList<FileDetails> getAllFilesWithoutPath(){
-        String[] files = getApplicationContext().fileList();
-        ArrayList<FileDetails> fileList = new ArrayList<>();
-
-        for(int i=0; i<files.length; i++){
-            fileList.add(new FileDetails(files[i]));
-        }
-        return fileList;
-    }
-    */
 
     // to not open the app without authentication when this activity is closed
     @Override
@@ -77,8 +62,6 @@ public class ShowAllFilesActivity extends AppCompatActivity implements LoaderMan
         super.onStop();
         finish();
     }
-
-
 
     @NonNull
     @Override
@@ -88,17 +71,14 @@ public class ShowAllFilesActivity extends AppCompatActivity implements LoaderMan
 
     @Override
     public void onLoadFinished(@NonNull Loader<List<FileDetails>> loader, List<FileDetails> data) {
-        adapter.clear();
 
         if (data != null && !data.isEmpty()) {
-            adapter.addAll(data);
-        } else{
-            emptyTextView.setText(R.string.no_result_found);
+            adapter.setData(data);
         }
     }
 
     @Override
     public void onLoaderReset(@NonNull Loader<List<FileDetails>> loader) {
-        adapter.clear();
+        adapter.setData(new ArrayList<FileDetails>());
     }
 }

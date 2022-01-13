@@ -1,7 +1,7 @@
 package com.example.lockmyfile;
 
 import android.content.Intent;
-import android.view.LayoutInflater;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.biometric.BiometricManager;
@@ -14,7 +14,6 @@ import android.os.Bundle;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
@@ -43,11 +42,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*
-        ApplicationLifecycleObserver observer = new ApplicationLifecycleObserver();
-        observer.registerLifecycle(getLifecycle());
-
-         */
+        // Screenshot protection
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         setContentView(R.layout.activity_main);
 
@@ -88,8 +84,6 @@ public class MainActivity extends AppCompatActivity {
                 .setAllowedAuthenticators(BiometricManager.Authenticators.DEVICE_CREDENTIAL)
                 .build();
 
-
-
         addFab = findViewById(R.id.add_fab);
         addFab.setOnClickListener(addAFile);
 
@@ -105,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (unlocked == false) {
+        if (!unlocked) {
             biometricPrompt.authenticate(promptInfo);
         }
     }
@@ -114,19 +108,13 @@ public class MainActivity extends AppCompatActivity {
     View.OnClickListener addAFile = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            checkFragmentWorkingStatus();
+            boolean status = fragment.getFragmentWorking();
+
+            if(!status){
+                Toast.makeText(getApplicationContext(), "Permission not granted", Toast.LENGTH_SHORT).show();
+            }
         }
     };
-
-    private void checkFragmentWorkingStatus(){
-        boolean status = this.fragment.getFragmentWorking();
-
-        if(status == true){
-        }
-        else{
-            Toast.makeText(getApplicationContext(), "Permission not granted", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     // onclicklistener to switch to ShowAllFilesActivity to show all the files present inside the app
     View.OnClickListener startShowFilesActivity = new View.OnClickListener() {

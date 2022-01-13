@@ -177,8 +177,6 @@ public class FileChooserFragment extends Fragment {
     public boolean getFragmentWorking(){
         // first check if the app has been granted file access permission
         if(checkPermission() == true){
-            // TODO - if permission is granted, browse through files in external storage
-            // browseFiles();
             fragmentWorking = true;
             Toast.makeText(getContext(), "Permission Granted", Toast.LENGTH_SHORT).show();
 

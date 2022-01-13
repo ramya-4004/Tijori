@@ -13,26 +13,28 @@
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
 
     <application
+            android:name=".ApplicationLifecycleObserver"
             android:allowBackup="true"
             android:icon="@drawable/calendar_month_outline"
             android:label="@string/disguise_app_name"
-            android:name=".ApplicationLifecycleObserver"
             android:requestLegacyExternalStorage="true"
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity
-                android:name=".ShowAllFilesActivity"
-        >
+        <activity android:name=".ViewPdfActivity">
+        </activity>
+        <activity android:name=".ViewVideoActivity">
+        </activity>
+        <activity android:name=".ViewImagesActivity">
+        </activity>
+        <activity android:name=".ShowAllFilesActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
             </intent-filter>
         </activity>
-
-
-        <activity android:name=".MainActivity"
-                  android:excludeFromRecents="true"
-        >
+        <activity
+                android:name=".MainActivity"
+                android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 

@@ -28,6 +28,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'org.jetbrains:annotations-java5:20.1.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
@@ -42,5 +43,12 @@ dependencies {
     // Lifecycle Observation dependency
     implementation 'android.arch.lifecycle:extensions:1.1.1'
 
+    // below dependency for using Picasso image loading library
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
+    // dependency to get extension from filePath
+    implementation 'commons-io:commons-io:2.6'
+    
+    // dependency to view PDF
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 }
