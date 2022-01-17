@@ -12,7 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
 import org.apache.commons.io.FilenameUtils;
 import java.io.File;
 import java.io.IOException;
@@ -87,6 +89,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         try {
             switch (fileType) {
                 case 1:
+                    Glide.with(context).load(file).into(view);
                     thumbImage = ThumbnailUtils.createImageThumbnail(file, new Size(height, width), new CancellationSignal());
                     view.setImageBitmap(thumbImage);
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -105,9 +108,22 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                     break;
 
                 case 2:
-                    thumbImage = ThumbnailUtils.createVideoThumbnail(file, new Size(height, width), new CancellationSignal());
-                    view.setBackground(new BitmapDrawable(context.getResources(), thumbImage));
-                    view.setImageResource(R.drawable.ic_play);
+                    Glide.with(context).load(file).into(view);
+                    view.setForeground(ContextCompat.getDrawable(context, R.drawable.ic_play));
+
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            // intent to the ViewVideo activity
+                            Intent videoIntent = new Intent(context, ViewVideoActivity.class);
+
+                            // sending the path of corresponding video file to the intent
+                            videoIntent.putExtra("videoPath", file.getPath());
+
+                            // start the ViewVideoActivity
+                            context.startActivity(videoIntent);
+                        }
+                    });
                     break;
 
                 case 3:

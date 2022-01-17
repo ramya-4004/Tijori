@@ -2,15 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.lockmyfile">
 
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-
-    <uses-feature
-            android:name="android.hardware.type.watch"/> <!-- Read and write permission declaration for API level < 30 -->
+    <uses-permission
+            android:name="android.permission.WAKE_LOCK"/> <!-- Read and write permission declaration for API level < 30 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission
             android:name="android.permission.WRITE_EXTERNAL_STORAGE"
             android:maxSdkVersion="29"/> <!-- Read and write permission declaration for API level >= 30 -->
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
             android:name=".ApplicationLifecycleObserver"
@@ -21,6 +20,10 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".BrowserActivity">
+        </activity>
+        <activity android:name=".EmptyLockerActivity">
+        </activity>
         <activity android:name=".ViewPdfActivity">
         </activity>
         <activity android:name=".ViewVideoActivity">

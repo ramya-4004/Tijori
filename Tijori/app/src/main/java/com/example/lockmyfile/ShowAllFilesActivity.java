@@ -1,17 +1,23 @@
 package com.example.lockmyfile;
 
+import android.view.View;
 import android.view.WindowManager;
+import android.webkit.WebView;
 import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class ShowAllFilesActivity extends AppCompatActivity  implements LoaderManager.LoaderCallbacks<List<FileDetails>> {
 
@@ -27,14 +33,18 @@ public class ShowAllFilesActivity extends AppCompatActivity  implements LoaderMa
 
     private static int loaderId = 0;
 
+    FrameLayout frameLayout;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         // Screenshot protection
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
-
         setContentView(R.layout.activity_show_all_files);
+
+        frameLayout = findViewById(R.id.files_layout);
 
         recyclerView = findViewById(R.id.recycler_view);
 
@@ -55,6 +65,14 @@ public class ShowAllFilesActivity extends AppCompatActivity  implements LoaderMa
         loaderId++;
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        BiometricAuthentication.setupBiometric(this);
+        frameLayout.setVisibility(View.VISIBLE);
+    }
+
 
     // to not open the app without authentication when this activity is closed
     @Override

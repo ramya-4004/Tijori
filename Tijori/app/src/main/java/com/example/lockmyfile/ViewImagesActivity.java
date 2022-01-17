@@ -7,7 +7,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.io.File;
 
@@ -44,7 +44,7 @@ public class ViewImagesActivity extends AppCompatActivity {
 
         // if the file exists then we are loading that image in our image view.
         if (imgFile.exists()) {
-            Picasso.get().load(imgFile).placeholder(R.drawable.ic_launcher_background).into(imageView);
+            Glide.with(this).load(imgFile).into(imageView);
         }
     }
 

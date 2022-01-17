@@ -1,20 +1,17 @@
 package com.example.lockmyfile;
 
 import android.content.Intent;
-import android.view.WindowManager;
+import android.view.*;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import androidx.annotation.NonNull;
-import androidx.biometric.BiometricManager;
-import androidx.biometric.BiometricPrompt;
-import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import java.util.concurrent.Executor;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,16 +24,13 @@ public class MainActivity extends AppCompatActivity {
     // Button to view all files locked in the app
     Button showBtn;
 
-    // boolean to know if the user has unlocked the app once
+    // boolean to check whether app is unlocked or not
     public static boolean unlocked;
 
-    /**
-     *  Declarations to setup authentication to open the app
-*/
-    public static Executor executor;
-    public static BiometricPrompt biometricPrompt;
-    public static BiometricPrompt.PromptInfo promptInfo;
+    FrameLayout frameLayout;
 
+    // ImageView to start Web browser
+    ImageView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,44 +39,22 @@ public class MainActivity extends AppCompatActivity {
         // Screenshot protection
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
-        setContentView(R.layout.activity_main);
+        // setting up biometric authentication
+        BiometricAuthentication.setupBiometric(this);
 
-        final FrameLayout frameLayout = findViewById(R.id.mainActivityLayout);
+        setContentView(R.layout.activity_main);
 
         unlocked = false;
 
-        executor = ContextCompat.getMainExecutor(this);
-        biometricPrompt = new BiometricPrompt(MainActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
-            @Override
-            public void onAuthenticationError(int errorCode,
-                                              @NonNull CharSequence errString) {
-                super.onAuthenticationError(errorCode, errString);
-                Toast.makeText(getApplicationContext(), "Authentication error: " + errString, Toast.LENGTH_SHORT).show();
-            }
+        frameLayout = findViewById(R.id.mainActivityLayout);
+        webView = findViewById(R.id.openWebImageView);
 
+        webView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onAuthenticationSucceeded(
-                    @NonNull BiometricPrompt.AuthenticationResult result) {
-                super.onAuthenticationSucceeded(result);
-                Toast.makeText(getApplicationContext(), "Authentication succeeded!", Toast.LENGTH_SHORT).show();
-                unlocked = true;
-
-                // make the activity visible only when authentication is successful
-                frameLayout.setVisibility(FrameLayout.VISIBLE);
-            }
-
-            @Override
-            public void onAuthenticationFailed() {
-                super.onAuthenticationFailed();
-                Toast.makeText(getApplicationContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, BrowserActivity.class));
             }
         });
-
-        promptInfo = new BiometricPrompt.PromptInfo.Builder()
-                .setTitle("Biometric Login for Tijori App")
-                .setSubtitle("Log in using your biometric credential")
-                .setAllowedAuthenticators(BiometricManager.Authenticators.DEVICE_CREDENTIAL)
-                .build();
 
         addFab = findViewById(R.id.add_fab);
         addFab.setOnClickListener(addAFile);
@@ -93,15 +65,34 @@ public class MainActivity extends AppCompatActivity {
         showBtn = findViewById(R.id.show_files_btn);
         showBtn.setOnClickListener(startShowFilesActivity);
 
+        SetPasswordDialog setPasswordDialog = new SetPasswordDialog(frameLayout, 1);
+        setPasswordDialog.show(getSupportFragmentManager(), "Set Password");
+
 
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        if (!unlocked) {
-            biometricPrompt.authenticate(promptInfo);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.set_fake_pwd:
+                SetPasswordDialog setFakePasswordDialog = new SetPasswordDialog(frameLayout, 2);
+                setFakePasswordDialog.show(getSupportFragmentManager(), "Set Fake Password");
+                break;
+
+            case R.id.change_pwd:
+                BiometricAuthentication.authenticateUser();
+                SetPasswordDialog changePasswordDialog = new SetPasswordDialog(frameLayout, 3);
+                changePasswordDialog.show(getSupportFragmentManager(), "Change Password");
+                break;
         }
+        return true;
     }
 
     // Setting on click listener for the button
@@ -116,13 +107,20 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    // onclicklistener to switch to ShowAllFilesActivity to show all the files present inside the app
+    // listener to switch to ShowAllFilesActivity to show all the files present inside the app
     View.OnClickListener startShowFilesActivity = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            BiometricAuthentication.authenticateUser();
             Intent intent = new Intent(MainActivity.this, ShowAllFilesActivity.class);
             startActivity(intent);
         }
     };
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finishAffinity();
+    }
 
 }
