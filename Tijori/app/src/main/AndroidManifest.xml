@@ -2,17 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.example.lockmyfile">
 
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission
             android:name="android.permission.WAKE_LOCK"/> <!-- Read and write permission declaration for API level < 30 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission
             android:name="android.permission.WRITE_EXTERNAL_STORAGE"
             android:maxSdkVersion="29"/> <!-- Read and write permission declaration for API level >= 30 -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/> <!-- for private web browsing -->
+    <uses-permission
+            android:name="android.permission.INTERNET"/> <!-- implement intruder selfie using inbuilt camera -->
+    <uses-permission android:name="android.permission.CAMERA"/>
+
+    <uses-feature android:name="android.hardware.camera"/>
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application
-            android:name=".ApplicationLifecycleObserver"
+            android:name=".Utilities.ApplicationLifecycleObserver"
             android:allowBackup="true"
             android:icon="@drawable/calendar_month_outline"
             android:label="@string/disguise_app_name"
@@ -20,29 +26,24 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".BrowserActivity">
+        <activity android:name=".PrivateBrowser.BrowserActivity">
         </activity>
-        <activity android:name=".EmptyLockerActivity">
-        </activity>
-        <activity android:name=".ViewPdfActivity">
-        </activity>
-        <activity android:name=".ViewVideoActivity">
-        </activity>
-        <activity android:name=".ViewImagesActivity">
-        </activity>
-        <activity android:name=".ShowAllFilesActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-            </intent-filter>
-        </activity>
-        <activity
-                android:name=".MainActivity"
-                android:excludeFromRecents="true">
+        <activity android:name=".FakePassword.EmptyLockerActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity android:name=".ViewFiles.ViewPdfActivity">
+        </activity>
+        <activity android:name=".ViewFiles.ViewVideoActivity">
+        </activity>
+        <activity android:name=".ViewFiles.ViewImagesActivity">
+        </activity>
+        <activity
+                android:name=".Main.MainActivity"
+                android:excludeFromRecents="true">
         </activity>
     </application>
 

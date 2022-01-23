@@ -1,6 +1,22 @@
 <resources>
     <string name="app_name">Lock My File</string>
 
+    <!-- home fragment -->
+    <string name="home_fragment">Home</string>
+
+    <!-- image fragment -->
+    <string name="image_fragment">Image</string>
+
+    <!-- Video fragment -->
+    <string name="video_fragment">Video</string>
+
+    <!-- pdf fragment -->
+    <string name="pdf_fragment">PDF</string>
+
+    <!-- key for encryption -->
+    <string name="encryption_key">My Key</string>
+
+
     <!-- fake app name to disguise the app -->
     <string name="disguise_app_name">Calendar</string>
 
@@ -48,4 +64,6 @@
 
     <!-- Starts Google search engine -->
     <string name="google_url">https://www.google.com</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
