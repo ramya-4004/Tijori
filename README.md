@@ -1,5 +1,5 @@
 # Tijori
-An Android App to lock your apps and files from access to unauthorised users.
+An Android App to lock your files from access to unauthorised users.
 
 ## Table of contents
 * [Description](#description)
