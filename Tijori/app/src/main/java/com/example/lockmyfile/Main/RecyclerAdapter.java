@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +15,6 @@ import com.example.lockmyfile.ViewFiles.ViewImagesActivity;
 import com.example.lockmyfile.ViewFiles.ViewPdfActivity;
 import com.example.lockmyfile.ViewFiles.ViewVideoActivity;
 import org.jetbrains.annotations.NotNull;
-
 import java.io.File;
 import java.util.List;
 
@@ -69,15 +69,33 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView textView = myViewHolder.textView;
         textView.setText(filesPathArrayList.get(position).getFileName());
 
-        FileDetails fileDetails = filesPathArrayList.get(position);
+        ImageView imageView = myViewHolder.imageView;
 
-        final File file = new File(fileDetails.getFileName());
+        switch (fileType){
+            case 1:
+                imageView.setImageResource(R.raw.image_icon);
+                textView.setBackgroundResource(R.color.image);
+                imageView.setBackgroundResource(R.color.image);
+                break;
+
+            case 2:
+                imageView.setImageResource(R.raw.video_icon);
+                textView.setBackgroundResource(R.color.video);
+                imageView.setBackgroundResource(R.color.video);
+                break;
+
+            case 3:
+                imageView.setImageResource(R.raw.pdf_icon);
+                textView.setBackgroundResource(R.color.pdf);
+                imageView.setBackgroundResource(R.color.pdf);
+        }
+
 
         myViewHolder.textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = getIntent();
-                intent.putExtra("Path", file.getPath());
+                intent.putExtra("Path", filesPathArrayList.get(position).getFilePath());
                 context.startActivity(intent);
             }
         });
@@ -95,11 +113,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
         // creating variables for our views.
         private final TextView textView;
+        private final ImageView imageView;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             // initializing our views with their ids.
             textView = itemView.findViewById(R.id.files_text_view);
+            imageView = itemView.findViewById(R.id.files_image_view);
         }
     }
 }

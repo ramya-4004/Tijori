@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#6200EE</color>
-    <color name="colorPrimaryDark">#3700B3</color>
+    <color name="colorPrimary">#151D51</color>
+    <color name="colorPrimaryDark">#373F6D</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="tabLayout">#010524</color>
+    <color name="image">#FF7547</color>
+    <color name="video">#81E979</color>
+    <color name="pdf">#cc2936</color>
+    <color name="dark_theme">#D8E3FE</color>
 </resources>

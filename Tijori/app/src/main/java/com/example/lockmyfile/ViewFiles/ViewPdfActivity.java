@@ -9,7 +9,6 @@ import com.example.lockmyfile.Main.MainActivity;
 import com.example.lockmyfile.Encryption.SharedPreferenceEncryption;
 import com.example.lockmyfile.R;
 import com.github.barteksc.pdfviewer.PDFView;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -43,6 +42,7 @@ public class ViewPdfActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         deleteFile();
+        finishAffinity();
         finish();
     }
 
@@ -51,8 +51,9 @@ public class ViewPdfActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         deleteFile();
-        Intent showFilesIntent = new Intent(ViewPdfActivity.this, MainActivity.class);
-        startActivity(showFilesIntent);
+        Intent intent = new Intent(ViewPdfActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     // create an async task class for loading pdf file from URL.

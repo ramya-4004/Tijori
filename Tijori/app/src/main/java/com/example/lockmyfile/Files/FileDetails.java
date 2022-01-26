@@ -7,19 +7,19 @@ public class FileDetails {
      * 2 -> video
      * 3 ->pdf
      */
+    private String filePath;
     private String fileName;
-    private int fileType;
 
-    public FileDetails(String fileName, int imageType){
-        this.fileName = fileName;
-        this.fileType = imageType;
+    public FileDetails(String filePath, String fileName){
+        this.filePath = filePath;
+        this.fileName= fileName;
     }
 
     public String getFileName(){
         return fileName;
     }
 
-    public int getFileType(){
-        return fileType;
+    public String getFilePath(){
+        return filePath;
     }
 }

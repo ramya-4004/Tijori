@@ -1,12 +1,15 @@
 package com.example.lockmyfile.ViewFiles;
 
 import android.content.Intent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.core.app.NavUtils;
 import com.example.lockmyfile.Main.MainActivity;
 import com.example.lockmyfile.Encryption.SharedPreferenceEncryption;
 import com.example.lockmyfile.R;
@@ -23,6 +26,7 @@ public class ViewImagesActivity extends AppCompatActivity {
 
     // on below line we are defining our scale factor.
     private float mScaleFactor = 1.0f;
+    private MenuItem item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +87,7 @@ public class ViewImagesActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        finishAffinity();
         finish();
     }
 
@@ -91,6 +96,7 @@ public class ViewImagesActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         Intent intent = new Intent(ViewImagesActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         startActivity(intent);
     }
 

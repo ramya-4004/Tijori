@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
-import com.androidhiddencamera.CameraConfig;
-import com.example.lockmyfile.FakePassword.EmptyLockerActivity;
 import com.example.lockmyfile.Main.MainActivity;
 
 // listener to catch swipe right event and start MainActivity

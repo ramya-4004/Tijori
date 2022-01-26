@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.lockmyfile.Files.FileDetails;
 import com.example.lockmyfile.R;
@@ -20,7 +21,7 @@ public class ImageFragment extends Fragment {
     RecyclerView recyclerView;
 
     RecyclerAdapter adapter;
-    GridLayoutManager manager;
+    LinearLayoutManager manager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -29,7 +30,7 @@ public class ImageFragment extends Fragment {
         View imageView = inflater.inflate(R.layout.fragment_image, container, false);
 
         recyclerView = imageView.findViewById(R.id.image_recycler_view);
-        manager = new GridLayoutManager(getContext(), 4);
+        manager = new LinearLayoutManager(getContext());
 
 
         return imageView;

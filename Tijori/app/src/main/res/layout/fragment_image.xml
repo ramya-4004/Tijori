@@ -10,6 +10,7 @@
             android:layout_width="match_parent"
             android:id="@+id/image_recycler_view"
             android:layout_gravity="center"
+            android:background="@color/dark_theme"
     />
 
 </FrameLayout>

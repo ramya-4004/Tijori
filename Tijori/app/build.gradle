@@ -56,9 +56,6 @@ dependencies {
     // dependency to view PDF
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
 
-    // for intruder selfie
-    implementation 'com.kevalpatel2106:hiddencamera:1.3.3'
-
     /**
      * jetpack security for file encryption
      */

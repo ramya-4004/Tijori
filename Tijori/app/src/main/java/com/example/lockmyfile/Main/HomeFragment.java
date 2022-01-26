@@ -31,6 +31,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         webView = view.findViewById(R.id.openWebImageView);
+        webView.setImageResource(R.raw.web_icon);
 
         webView.setOnClickListener(new View.OnClickListener() {
             @Override

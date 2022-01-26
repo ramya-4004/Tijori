@@ -10,11 +10,13 @@
         android:visibility="invisible"
         tools:context=".Main.MainActivity">
 
+
     <fragment
             android:id="@+id/fragment_fileChooser"
             android:name="com.example.lockmyfile.Files.FileChooserFragment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
     <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -26,7 +28,7 @@
             android:layout_height="80dp"
             android:layout_weight="1"
             android:id="@+id/tabLayout2"
-            android:background="#795548"
+            android:background="@color/tabLayout"
             app:tabIndicatorColor="#212121"
 
     />

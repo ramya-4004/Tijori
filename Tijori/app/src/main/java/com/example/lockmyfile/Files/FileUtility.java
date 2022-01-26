@@ -20,6 +20,7 @@ public class FileUtility {
     public static void getFile(Context context, Uri uri) {
         File dest = null;
         try {
+            Log.i(LOG_TAG, "FIle taken successfully");
             dest = new File(context.getFilesDir().getPath() + File.separatorChar + getFileName(context, uri));
             EncryptedFile destFile = SharedPreferenceEncryption.encryptCopiedFile(dest, context.getApplicationContext());
             InputStream ios = context.getContentResolver().openInputStream(uri);

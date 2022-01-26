@@ -6,9 +6,9 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="300dp"
             android:textSize="40sp"
-            android:text="@string/no_files_locked"
+            android:text="@string/app_crashed"
             android:gravity="center"
     />
 

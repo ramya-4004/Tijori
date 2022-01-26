@@ -101,7 +101,6 @@ public class SetPasswordDialog extends AppCompatDialogFragment {
                 .setPositiveButton(R.string.confirm_password, null)
                 .create();
 
-        //dialog.setCanceledOnTouchOutside(false);
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override

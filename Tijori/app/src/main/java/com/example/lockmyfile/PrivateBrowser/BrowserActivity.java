@@ -1,9 +1,12 @@
 package com.example.lockmyfile.PrivateBrowser;
 
+import android.content.Intent;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import com.example.lockmyfile.Main.MainActivity;
 import com.example.lockmyfile.R;
 
 public class BrowserActivity extends AppCompatActivity {
@@ -27,6 +30,7 @@ public class BrowserActivity extends AppCompatActivity {
         url = getText(R.string.google_url).toString();
 
         webView = findViewById(R.id.webView);
+        webView.setVisibility(View.VISIBLE);
         webView.setWebViewClient(new customWebViewClient());
 
         webView.getSettings().setLoadsImagesAutomatically(true);
@@ -62,6 +66,12 @@ public class BrowserActivity extends AppCompatActivity {
             return true;
         }
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(BrowserActivity.this, MainActivity.class));
     }
 
     // to not open the app without authentication when this activity is closed

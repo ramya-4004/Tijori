@@ -51,11 +51,11 @@ public class FileLoader extends AsyncTaskLoader<HashMap<String, List<FileDetails
         for(int i=0; i<files.length; i++){
             extension = FilenameUtils.getExtension(files[i]);
             if(imageExtensions.contains(extension))
-                allFiles.get(IMAGE).add(new FileDetails(path + "/" + files[i], 1));
+                allFiles.get(IMAGE).add(new FileDetails(path + "/" + files[i], files[i]));
             else if(videoExtensions.contains(extension))
-                allFiles.get(VIDEO).add(new FileDetails(path + "/" + files[i], 2));
+                allFiles.get(VIDEO).add(new FileDetails(path + "/" + files[i], files[i]));
             else if(pdfExtension.equals(extension))
-                allFiles.get(PDF).add(new FileDetails(path + "/" + files[i], 3));
+                allFiles.get(PDF).add(new FileDetails(path + "/" + files[i], files[i]));
             Log.i("Images", String.valueOf(allFiles.get(IMAGE).size()));
             Log.i("Pdfs", String.valueOf(allFiles.get(PDF).size()));
             Log.i("Videos", String.valueOf(allFiles.get(VIDEO).size()));

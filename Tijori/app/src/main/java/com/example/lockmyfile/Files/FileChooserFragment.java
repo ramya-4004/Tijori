@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.Settings;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResult;
@@ -97,11 +98,14 @@ public class FileChooserFragment extends Fragment {
                         ApplicationLifecycleObserver.stillInApp = true;
                     } else{
                         ApplicationLifecycleObserver.stillInApp = false;
+                        Log.i(LOG_TAG, "Error in file retrieval");
                     }
 
                 }
+                Log.i(LOG_TAG, "Failure");
 
             }
+
         });
 
         // return this view to MainActivity
@@ -204,6 +208,7 @@ public class FileChooserFragment extends Fragment {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
 
+        Log.i(LOG_TAG, "Browsing files");
         activityBrowsingResultLauncher.launch(intent);
     }
 

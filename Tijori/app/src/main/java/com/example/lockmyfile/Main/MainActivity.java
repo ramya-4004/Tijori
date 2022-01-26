@@ -3,6 +3,8 @@ package com.example.lockmyfile.Main;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.view.*;
@@ -14,11 +16,13 @@ import android.os.Bundle;
 import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.loader.app.LoaderManager;
 import androidx.loader.content.Loader;
 import androidx.viewpager.widget.ViewPager;
+import com.example.lockmyfile.Files.FileChooserFragment;
 import com.example.lockmyfile.Utilities.ApplicationLifecycleObserver;
 import com.example.lockmyfile.Files.FileDetails;
 import com.example.lockmyfile.R;
@@ -56,14 +60,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
 
         setContentView(R.layout.activity_main);
-        // TODO -> Menu to disable intruder selfie
+
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        getSupportActionBar().setTitle(R.string.app_name);
 
         executor = ContextCompat.getMainExecutor(this);
         setupBiometric();
 
         linearLayout = findViewById(R.id.mainActivityLayout);
-
-        checkPermission();
 
         allFiles = new HashMap<>();
 
@@ -119,13 +124,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
     }
+
     private void setupBiometric(){
         biometricPrompt = new BiometricPrompt(this, executor, new BiometricPrompt.AuthenticationCallback() {
             @Override
             public void onAuthenticationError(int errorCode,
                                               @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
-                finish();
             }
 
             @Override
@@ -194,74 +199,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
 
 
+
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         ApplicationLifecycleObserver.stillInApp = false;
+        finishAffinity();
         finish();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        finish();
-    }
-
-    private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            requestPermission();
+        if(!ApplicationLifecycleObserver.stillInApp) {
+            finishAffinity();
+            finish();
         }
     }
-
-    private void requestPermission() {
-
-        ActivityCompat.requestPermissions(this,
-                new String[]{Manifest.permission.CAMERA},
-                PERMISSION_REQUEST_CODE);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
-
-                    // main logic
-                } else {
-                    Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            showMessageOKCancel("You need to allow access permissions",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermission();
-                                            }
-                                        }
-                                    });
-                        }
-                    }
-                }
-                break;
-        }
-    }
-
-    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(this)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
-    }
-
-
 
 }

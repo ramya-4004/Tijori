@@ -32,7 +32,7 @@
     <!-- String value for button to view all files in the app -->
     <string name="show_all_files">Show files</string>
 
-    <string name="no_files_locked">No Files Imported</string>
+    <string name="app_crashed">App has crashed</string>
 
     <string name="no_result_found">No Results Found</string>
 

@@ -54,6 +54,7 @@ public class ViewVideoActivity extends AppCompatActivity{
     protected void onStop() {
         super.onStop();
         deleteFile();
+        finishAffinity();
         finish();
     }
 
@@ -63,8 +64,9 @@ public class ViewVideoActivity extends AppCompatActivity{
         super.onBackPressed();
         deleteFile();
 
-        Intent showFilesIntent = new Intent(ViewVideoActivity.this, MainActivity.class);
-        startActivity(showFilesIntent);
+        Intent intent = new Intent(ViewVideoActivity.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        startActivity(intent);
     }
 
     private void deleteFile(){

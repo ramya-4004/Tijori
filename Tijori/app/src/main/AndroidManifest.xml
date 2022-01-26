@@ -3,19 +3,19 @@
           package="com.example.lockmyfile">
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission
-            android:name="android.permission.WAKE_LOCK"/> <!-- Read and write permission declaration for API level < 30 -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <!-- Read and write permission declaration for API level < 30 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission
             android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-            android:maxSdkVersion="29"/> <!-- Read and write permission declaration for API level >= 30 -->
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/> <!-- for private web browsing -->
-    <uses-permission
-            android:name="android.permission.INTERNET"/> <!-- implement intruder selfie using inbuilt camera -->
-    <uses-permission android:name="android.permission.CAMERA"/>
+            android:maxSdkVersion="29"/>
 
-    <uses-feature android:name="android.hardware.camera"/>
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <!-- Read and write permission declaration for API level >= 30 -->
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE"/>
+
+    <!-- for private web browsing -->
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
             android:name=".Utilities.ApplicationLifecycleObserver"
@@ -28,10 +28,10 @@
             android:theme="@style/AppTheme">
         <activity android:name=".PrivateBrowser.BrowserActivity">
         </activity>
-        <activity android:name=".FakePassword.EmptyLockerActivity">
+        <activity android:name=".FakePassword.EmptyLockerActivity"
+                  android:excludeFromRecents="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -42,8 +42,7 @@
         <activity android:name=".ViewFiles.ViewImagesActivity">
         </activity>
         <activity
-                android:name=".Main.MainActivity"
-                android:excludeFromRecents="true">
+                android:name=".Main.MainActivity">
         </activity>
     </application>
 
